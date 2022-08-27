@@ -1,7 +1,10 @@
+import 'package:docfrnt/screens/auth/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kf_drawer/kf_drawer.dart';
 
+import '../../network/networkapi.dart';
 import '../../utils/class_builder.dart';
 import '../screens2/auth_page.dart';
 import '../screens2/patients.dart';
@@ -13,11 +16,37 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late String name;
+  late String role;
+  late String about;
+  late String img;
+  String? email = "";
+  final storage = FlutterSecureStorage();
+
+  NetworkHandler networkHandler = NetworkHandler();
+  Widget profilePhoto = CircleAvatar(
+      radius: 50, backgroundImage: AssetImage("assets/defaultprofile.jpg"));
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     ClassBuilder.registerClasses();
+    print("My email : ${email}");
+    getUserData();
+  }
+
+  void getUserData() async {
+    email = await storage.read(key: "email");
+    var response = await networkHandler.get("duser/getdata/${email}");
+    print("My response ${response["name"]}");
+    if (response["status"] == true) {
+      setState(() {
+        name = response["name"];
+        img = response["img"];
+        role = response["role"];
+        email = response["email"];
+      });
+    }
   }
 
   // This widget is the root of your application.
@@ -89,7 +118,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             margin: EdgeInsets.only(bottom: 80.0),
             width: MediaQuery.of(context).size.width * 0.6,
             child: Image.asset(
-              'assets/images/logo.png',
+              'assets/images/logoapp.png',
               alignment: Alignment.centerLeft,
             ),
           ),
@@ -103,13 +132,13 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             Icons.input,
             color: Colors.white,
           ),
-          onPressed: () {
-            Navigator.of(context).push(CupertinoPageRoute(
-              fullscreenDialog: true,
-              builder: (BuildContext context) {
-                return AuthPage();
-              },
-            ));
+          onPressed: () async {
+            final storage = FlutterSecureStorage();
+            await storage.delete(key: "token");
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                (route) => false);
           },
         ),
         decoration: BoxDecoration(

@@ -39,6 +39,11 @@ dependencies:
   kf_drawer: ^1.2.1
   animated_theme_switcher: ^2.0.1-nullsafety.0
   flutter_tags: ^0.4.9+1
+  logger: ^1.1.0
+  http: ^0.13.5
+  flutter_secure_storage: ^5.0.2
+  image_picker: ^0.8.4+5
+
 
 dev_dependencies:
   flutter_test:

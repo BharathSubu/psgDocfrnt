@@ -42,9 +42,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: Column(
                   children: [
                     Spacer(),
-                    SvgPicture.asset(
-                      "assets/icons/gerda_logo.svg",
-                    ),
+
+                    Image(image: AssetImage("assets/images/logoapp.png")),
+                    Text("Doctor"),
                     Spacer(),
                     // As you can see we need more paddind on our btn
                     SizedBox(

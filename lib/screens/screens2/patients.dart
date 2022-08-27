@@ -56,16 +56,16 @@ class _CalendarPageState extends State<CalendarPage> {
                       borderRadius: new BorderRadius.circular(30.0),
                     ),
                     elevation: requestPage ? 50 : 0,
-                    primary: requestPage ? Colors.white : Colors.black,
+                    primary: requestPage ? Colors.white : Colors.blue,
                     onPrimary: Colors.white,
                     side: BorderSide(
-                        color: requestPage ? Colors.black : Colors.white,
+                        color: requestPage ? Colors.blue : Colors.white,
                         width: 1),
                   ),
                   child: Text(
                     "Patient Request",
                     style: TextStyle(
-                        color: requestPage ? Colors.black : Colors.white),
+                        color: requestPage ? Colors.blue : Colors.white),
                   ),
                 ),
               ),
